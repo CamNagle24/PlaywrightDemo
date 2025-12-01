@@ -7,11 +7,7 @@
       </span>
     </h1>
 
-    <p v-if="!user" class="hint">
-      Please sign in first to see your completed to-dos.
-    </p>
-
-    <div v-else>
+    <div>
       <!-- Category filter -->
       <div class="categories" v-if="allCategoryNames.length">
         <span class="cat-label">Filter:</span>
@@ -52,13 +48,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { useCurrentUser, useCollection } from 'vuefire'
+import { useCollection } from 'vuefire'
 import { collection, query, where } from 'firebase/firestore'
 import { db } from '../firebase_conf'
 
-const user = useCurrentUser()
+const user = ref({ uid: 'default-user' })
 const route = useRoute()
 
 const currentCategory = computed(() => {

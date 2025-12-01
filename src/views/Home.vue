@@ -2,18 +2,9 @@
   <div class="card">
     <h1 class="title">Personal To-do List</h1>
 
-    <!-- Not logged in -->
-    <div v-if="!user" class="section">
+    <div class="section">
       <p class="subtitle">
-        Welcome! Please sign in to use your personal to-do list.
-      </p>
-      <button class="signin-btn" @click="login">Sign in with Google</button>
-    </div>
-
-    <!-- Logged in -->
-    <div v-else class="section">
-      <p class="subtitle">
-        Signed in as <strong>{{ displayName }}</strong>
+        Welcome to your personal to-do list!
       </p>
       <div class="button-group">
         <router-link to="/todos" class="action-btn primary-btn">
@@ -23,51 +14,11 @@
           completed to-dos
         </router-link>
       </div>
-      <button class="logout-btn" @click="logout">Sign out</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCurrentUser, useFirebaseAuth } from 'vuefire'
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
-
-const user = useCurrentUser()
-const auth = useFirebaseAuth()
-const router = useRouter()
-
-const displayName = computed(
-  () => user.value?.displayName || user.value?.email || 'Anonymous'
-)
-
-//redirect to todos
-watch(user, (val) => {
-  if (val) {
-    router.push('/todos')
-  }
-})
-
-async function login() {
-  try {
-    const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider)
-    router.push('/todos')
-  } catch (err) {
-    console.error(err)
-    alert('Login failed')
-  }
-}
-
-async function logout() {
-  try {
-    await signOut(auth)
-  } catch (err) {
-    console.error(err)
-    alert('Logout failed')
-  }
-}
 </script>
 
 <style scoped>

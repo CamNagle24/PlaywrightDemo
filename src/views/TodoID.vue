@@ -26,13 +26,13 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useCurrentUser, useDocument } from 'vuefire'
+import { useDocument } from 'vuefire'
 import { db } from '../firebase_conf'
 import { doc, updateDoc } from 'firebase/firestore'
 
 const route = useRoute()
 const router = useRouter()
-const user = useCurrentUser()
+const user = ref({ uid: 'default-user' })
 
 const todoSource = computed(() => {
   if (!user.value) return null

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getCurrentUser } from 'vuefire'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,18 +39,6 @@ const router = createRouter({
       component: () => import('../views/NotFound.vue'),
     },
   ],
-})
-
-// redirect to / if not authenticated
-router.beforeEach(async (to) => {
-  const protectedRoutes = ['todos', 'todos-category', 'done', 'done-category', 'todo-id']
-  
-  if (protectedRoutes.includes(to.name)) {
-    const user = await getCurrentUser()
-    if (!user) {
-      return '/'
-    }
-  }
 })
 
 export default router

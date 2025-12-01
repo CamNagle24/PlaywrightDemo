@@ -7,13 +7,7 @@
       </span>
     </h1>
 
-    <!-- Not logged in -->
-    <p v-if="!user" class="hint">
-      Please go back and sign in on the Home page to see your to-dos.
-    </p>
-
-    <!-- Logged in -->
-    <div v-else>
+    <div>
       <!-- Create new todo -->
       <form class="new-todo" @submit.prevent="addTodo">
         <input
@@ -98,7 +92,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { useCurrentUser, useCollection } from 'vuefire'
+import { useCollection } from 'vuefire'
 import {
   collection,
   query,
@@ -111,7 +105,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase_conf'
 
-const user = useCurrentUser()
+const user = ref({ uid: 'default-user' })
 const route = useRoute()
 
 const newText = ref('')
